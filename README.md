@@ -53,6 +53,14 @@ node runtime/cancel-check.cjs claude-code  # 运行中停止
 
 当前支持范围与遗留事项见 [docs/STATUS.md](docs/STATUS.md)。图标来源见 [public/brands/SOURCES.md](public/brands/SOURCES.md)。密钥不应写入代码或命令行参数。应用目前仅做本机临时签名，尚未完成对外分发公证。
 
+## 作者
+
+- [Jessica-yaoyao](https://github.com/Jessica-yaoyao)
+- [IronMan-libingxue](https://github.com/IronMan-libingxue)
+
+本仓库由 Jessica-yaoyao 发布与维护；完整署名说明见 [AUTHORS.md](AUTHORS.md)。
+
 ## 许可
 
 本仓库公开源码，原创代码和文档采用 [PolyForm Noncommercial 1.0.0](LICENSE)：允许非商业用途的使用、修改和再分发，商业用途需要另行取得授权。这是**非商业源码许可**，不属于 OSI 定义的开源许可证。第三方名称、商标及 `public/brands/` 中的标识仍归各权利人所有，不在上述许可范围内。
+
