@@ -1,86 +1,123 @@
 # AgentHub
 
 <p align="center">
-  <img src="src-tauri/icons/icon.png" width="96" alt="AgentHub app icon">
+  <img src="src-tauri/icons/icon.png" width="112" alt="AgentHub app icon">
 </p>
 
 <p align="center">
-  <strong>Manage multiple AI coding assistants in one macOS workspace.</strong><br>
-  Organize tasks by project, review plans before running them, and pick up where you left off.
+  A macOS workspace for managing AI coding assistants, organizing tasks by project, reviewing plans, and resuming earlier sessions.
 </p>
 
 <p align="center">
-  <a href="README.md">简体中文</a> · English
+  English · <a href="README.md">简体中文</a>
 </p>
 
 <p align="center">
-  v0.5.0 · macOS · <a href="LICENSE">Noncommercial license</a><br>
-  Developed by <a href="https://github.com/Jessica-yaoyao">Jessica-yaoyao</a> and
-  <a href="https://github.com/IronMan-libingxue">IronMan-libingxue</a>
+  <img alt="Source version v0.5.0" src="https://img.shields.io/badge/source-v0.5.0-1f6feb">
+  <img alt="macOS (tested on Apple silicon)" src="https://img.shields.io/badge/macOS-Apple%20silicon-111111?logo=apple">
+  <a href="LICENSE"><img alt="Noncommercial license" src="https://img.shields.io/badge/license-PolyForm%20Noncommercial-orange"></a>
 </p>
 
-## Get AgentHub
+> [!IMPORTANT]
+> The v0.5.0 source is available here. Build the desktop app locally on macOS.
 
-| Option | Details |
-| --- | --- |
-| [Download the source ZIP](https://github.com/Jessica-yaoyao/AgentHub/archive/refs/heads/main.zip) | A snapshot of the main branch for browsing the code or building locally |
-| [Build on macOS](#build-and-test-locally) | v0.5.0 has been built on an Apple silicon Mac. A public installer is pending |
+## Quick downloads
 
-## Interface preview
+| Platform | Recommended download | Installation |
+| --- | --- | --- |
+| macOS (tested on Apple silicon) | [Download the source ZIP](https://github.com/Jessica-yaoyao/AgentHub/archive/refs/heads/main.zip) | [Build from source](#installation-notes) |
 
-These screenshots show the v0.5.0 browser preview with demonstration tasks, installation statuses, and diagnostics.
+## Preview
 
-![AgentHub task view with projects in the sidebar and a sample Claude Code plan, model selector, and composer](docs/images/task-planning.png)
+> The screenshots show the v0.5.0 interface demo with sample tasks, installation statuses, and diagnostics.
 
-*Choose a project and assistant, review the task plan, or open an earlier task from the sidebar.*
+![Task workspace with projects in the sidebar and a sample Claude Code plan and message box](docs/images/task-planning.png)
 
-| Agent catalog | Settings and connection status |
-| --- | --- |
-| [![The agent catalog with installation and setup statuses](docs/images/agent-market.png)](docs/images/agent-market.png) | [![Settings for API keys and agent status, with all example keys unconfigured](docs/images/settings.png)](docs/images/settings.png) |
-| Find assistants and see which ones need setup or repair. | Configure services and review connection status. Select an image to see it at full size. |
+<table>
+  <tr>
+    <td width="50%"><img src="docs/images/agent-market.png" alt="Browse assistants and check installation status in the agent catalog"></td>
+    <td width="50%"><img src="docs/images/settings.png" alt="Configure API keys and check assistant status in Settings"></td>
+  </tr>
+  <tr>
+    <td align="center">Agent catalog</td>
+    <td align="center">Settings and connection status</td>
+  </tr>
+</table>
 
-## Main features
+## Highlights
 
-- **Organize work by project.** Add a local folder as a project and keep multiple tasks alongside it. Each assistant keeps its own sessions.
-- **Manage assistants in one place.** Browse the catalog, check setup status, and use the install, repair, or removal options available for each assistant.
-- **Choose an assistant and model.** Use an assistant's existing sign-in where supported, or choose the Kimi Code API for compatible assistants.
-- **Review the plan before running it.** With a supported integration, plan mode lets the assistant read and analyze first. Approve the plan to allow changes to files.
-- **Stop and resume tasks.** Stop an active run and keep its task history. Supported assistants can resume from an existing task after the app restarts.
+- Add a local folder as a project and keep several tasks under it. Each assistant keeps its sessions separate.
+- Browse assistants, check installation and sign-in setup, and use the available install, repair, or removal options.
+- Choose an assistant and model for each task. Use an existing sign-in or the Kimi Code API, depending on the integration.
+- Start with read-only analysis where supported, then approve the plan to allow file changes.
+- Stop an active run and keep its history. Supported assistants can resume from an existing task after the app restarts.
 
-## Quick start
+## Planning and running tasks
 
-1. Build and open AgentHub. Select the plus button next to Projects and choose the folder you want to work in.
-2. Check that your assistant is ready in the agent catalog. If it needs an API key, configure your service in Settings.
-3. Create a task and choose the project, assistant, and an available model. To try plan mode, ask it to read the project overview and suggest three improvements, starting with a plan.
+1. Open AgentHub, select the plus button next to Projects, and choose a folder to work in.
+2. Check that your assistant is ready in the agent catalog. If it needs an API key, configure the service in Settings.
+3. Create a task and choose the project, assistant, and an available model. To try plan mode, ask the assistant to read the project overview and suggest three improvements.
 4. Review and approve the plan or revise your request. Select Stop to interrupt an active run, and return to the task from the sidebar.
 
-## Tested integrations
+### Integration status
 
 | Assistant | What the project has tested |
 | --- | --- |
 | Kimi Code | The official interface opens within AgentHub. Recorded live checks cover sessions, plan approval, stopping, and resuming. |
 | Codex, Claude Code, Pi | Task runs, plan approval, stopping, and resuming were tested with the Kimi Code API. Existing sign-ins are available according to each assistant's capabilities. |
-| Gemini CLI, Qwen Code, Cursor Agent, OpenCode, Aider, OpenClaw | Listed in the catalog. End-to-end task runs remain to be verified for each one. |
+| Gemini CLI, Qwen Code, Cursor Agent, OpenCode, Aider, OpenClaw | The catalog provides installation and management options. End-to-end task runs remain to be verified for each one. |
 
-See the [project status](docs/STATUS.md) for integration details and limitations. Terminal sessions and scheduled automation each follow their own execution rules.
+Terminal sessions and automated tasks each follow their own execution rules. See the [project status](docs/STATUS.md) for integration details.
 
-## Data and privacy
+## Privacy boundaries
 
-AgentHub stores API keys entered in its settings in the macOS Keychain and keeps task history and preferences on the device. When you run a task, the selected assistant or model service processes the task content according to its integration. Use your own account, authorization, and service quota.
+- API keys entered in Settings are stored in the macOS Keychain.
+- Task history and app settings are stored on the device.
+- When you run a task, the selected assistant or model service processes the task content according to its integration. Use your own account, authorization, and service quota.
 
-## Build and test locally
+## Installation notes
 
-Use Node.js 22 or later, npm, Rust, and the macOS command-line developer tools. From the project folder, run these commands.
+### macOS
+
+Use Node.js 22 or later, npm, Rust, and the macOS command-line developer tools. Extract the source archive and run these commands from the project folder.
 
 ```sh
 npm ci
 npm run tauri build -- --bundles app
 ```
 
-Find `AgentHub.app` in `src-tauri/target/release/bundle/macos/`. Run `npm run dev` for a browser preview. For local checks, run `npm test`, `npm run build`, and `cargo test --manifest-path src-tauri/Cargo.toml`.
+After the build completes, open `AgentHub.app` in `src-tauri/target/release/bundle/macos/`.
 
-## Authors and license
+## Development
 
-AgentHub is developed by [Jessica-yaoyao](https://github.com/Jessica-yaoyao) and [IronMan-libingxue](https://github.com/IronMan-libingxue). See the full [author credits](AUTHORS.md).
+After installing dependencies, use the browser demo or launch the desktop app in development mode.
 
-The original code and documentation are available under [PolyForm Noncommercial 1.0.0](LICENSE). Third-party names and logos belong to their respective owners. See the [brand sources](public/brands/SOURCES.md).
+```sh
+npm run dev
+npm run tauri dev
+```
+
+Run the following commands to check task sessions, the frontend build, and the desktop code.
+
+```sh
+npm test
+npm run build
+cargo test --manifest-path src-tauri/Cargo.toml
+```
+
+## Contributing
+
+When submitting an improvement, describe the environment, steps to reproduce, and what you tested. For integration changes, identify the assistant and service you used.
+
+## Authors
+
+- [Jessica-yaoyao](https://github.com/Jessica-yaoyao)
+- [IronMan-libingxue](https://github.com/IronMan-libingxue)
+
+See the full [author credits](AUTHORS.md).
+
+## License
+
+The original code and documentation are available under [PolyForm Noncommercial 1.0.0](LICENSE). Commercial use requires separate permission.
+
+Third-party names and logos belong to their respective owners. See the [brand sources](public/brands/SOURCES.md).
