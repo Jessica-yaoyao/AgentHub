@@ -1,66 +1,86 @@
-# AgentHub v0.5.0
+# AgentHub
 
-本机多 Agent 工作台。项目是工作目录，任务是独立会话。简洁的桌面界面帮助用户发现、安装、管理和移除编程 Agent，降低入门门槛。
+<p align="center">
+  <img src="src-tauri/icons/icon.png" width="96" alt="AgentHub 应用图标">
+</p>
 
-## 适合谁
+<p align="center">
+  <strong>在同一个 macOS 工作台里管理多个 AI 编程助手。</strong><br>
+  按项目组织任务，先看计划再执行，随时回来继续。
+</p>
 
-想尝试 AI 编程工具，却不想反复处理安装路径、密钥和终端配置的用户，可以从同一个界面认识和管理多个 Agent。已有项目的开发者可以按工作目录创建任务，选择合适的 Agent 与模型，查看执行状态，并在修改文件前确认计划。
+<p align="center">
+  简体中文 · <a href="README.en.md">English</a>
+</p>
 
-当前已用真实调用验证 Kimi Code、Codex、Claude Code 和 Pi。其他工具的安装入口与能力说明已提供，具体可用性取决于本机安装、授权和后续验证。
+<p align="center">
+  v0.5.0 · macOS · <a href="LICENSE">非商业许可</a><br>
+  <a href="https://github.com/Jessica-yaoyao">Jessica-yaoyao</a> 与
+  <a href="https://github.com/IronMan-libingxue">IronMan-libingxue</a> 共同开发
+</p>
 
-## 使用
+## 获取 AgentHub
 
-打开 `src-tauri/target/release/bundle/macos/AgentHub.app`。先添加实际项目目录，再新建任务选择 Agent。默认项目 `~` 是用户主目录，不是本项目目录。
+| 获取方式 | 说明 |
+| --- | --- |
+| [下载源码 ZIP](https://github.com/Jessica-yaoyao/AgentHub/archive/refs/heads/main.zip) | 下载当前主分支，适合查看代码或自行构建 |
+| [在 macOS 本地构建](#本地构建与测试) | v0.5.0 已在 Apple 芯片 Mac 上构建。公开安装包尚未发布 |
 
-- **Kimi**：主窗口直接显示官方 Web 页面。思考、计划审批、文件、工具、会话与设置使用原生功能。模型由上方下拉框选择，密钥在设置中保存。
-- **Codex / Claude / Pi**：选择“模型服务 → Kimi Code API”和 `kimi-for-coding`，即可使用已实测的接入。原有登录可独立选择；检测到登录配置不代表登录仍有效。
-- **计划模式**：先调研并提交计划；点击“确认计划并执行”才切换到可修改阶段。Kimi 使用原生审批；Claude/Codex 支持窗口工具授权；Pi 用只读工具列表限制计划。
-- **切换 Agent**：新建独立会话，保留旧任务，避免把不同 Agent 的内部会话混用。
-- **停止**：中断当前模型轮次，不删除对话。程序重启后点击原任务可恢复原生会话。
-- **历史记录**：v0.4 及更早的 Kimi 简易对话保存在“迁移前记录”，不会自动成为新原生会话的上下文。需要延续旧需求时，请明确复制所需内容。
+## 界面预览
 
-## 能力边界
+截图来自 v0.5.0 的浏览器预览，画面中的任务、安装状态和诊断信息均为演示数据。
 
-已用真实 Kimi API 验证 Kimi、Codex、Claude、Pi。其余六个 Agent 提供官方文档对应的入口和明确限制，尚未安装/授权，不能视为已通过端到端测试。AgentHub 不是各厂商桌面 App 的完整复制品：未公开接口、付费特性和自定义扩展不能保证等价。原生网页主题在各自设置中切换；外框明暗按钮只调整外框。
+![AgentHub 任务界面。左侧按项目列出任务，右侧展示 Claude Code 的示例计划、模型选项和输入框](docs/images/task-planning.png)
 
-Kimi 原生页面可自行创建其他会话。外框状态与模型控制绑定启动时对应的 AgentHub 任务；在原生页面切到其他会话后，请使用原生状态和停止按钮，或从 AgentHub 新建任务保持一一对应。
+*在任务界面切换项目和助手，阅读计划，或从侧栏打开历史任务。*
 
-窗口不会加载 Claude 项目钩子及 Pi 扩展，以维持计划约束；这些功能可从“官方终端”使用。终端执行遵循官方 Agent 自身配置，不受窗口计划模式控制。自动化仍采用独立的非交互执行路径，不等同于交互式任务。系统桌面通知暂未接入，界面已明确标注。
+| 插件市场 | 设置与连接状态 |
+| --- | --- |
+| [![在插件市场浏览助手及其安装状态](docs/images/agent-market.png)](docs/images/agent-market.png) | [![在设置中管理 API 密钥和查看助手状态。示例中的密钥均未配置](docs/images/settings.png)](docs/images/settings.png) |
+| 查找助手，查看哪些已安装、需要配置或需要修复。 | 集中配置服务并检查连接状态。点击图片可查看原图。 |
 
-## 开发与测试
+## 主要功能
 
-需要 Node.js 22+、npm、Rust 和 macOS 构建工具。首次运行请安装依赖：`npm ci`。
+- **按项目组织工作。** 添加本机目录作为项目，在同一个项目里分别保留多个任务。不同助手的会话各自保存。
+- **集中管理助手。** 在插件市场查找助手并查看安装和登录配置状态，根据助手提供的选项安装、修复或移除。
+- **选择助手和模型。** 新建任务时选择合适的助手，按接入方式使用它原有的登录，或在支持的助手里选择 Kimi Code API。
+- **先看计划，再决定是否执行。** 在支持的接入中，计划阶段先读取和分析。确认计划后，助手才进入可修改文件的阶段。
+- **随时停止和继续。** 可以停止当前运行并保留任务记录。重新打开应用后，支持恢复的助手可以从原任务继续。
+
+## 快速开始
+
+1. 构建并打开 AgentHub。在侧栏「项目」旁点击「+」，选择要工作的目录。
+2. 在「插件市场」检查要用的助手是否就绪。需要 API 密钥时，在「设置」里配置自己的服务。
+3. 点击「新建任务」，选定项目、助手和可用模型。第一次可以用计划模式试试「请阅读项目说明和目录，列出三项整理建议，先给计划。」
+4. 阅读计划后，在界面确认执行或调整要求。要中断时点击停止，之后可从侧栏回到原任务。
+
+## 已验证的接入
+
+| 助手 | 项目记录中的验证范围 |
+| --- | --- |
+| Kimi Code | 在工作台内使用官方界面。会话、计划确认、停止和恢复有真实调用记录。 |
+| Codex、Claude Code、Pi | 使用 Kimi Code API 验证过任务运行、计划确认、停止和恢复。可按各助手的支持情况选择原有登录。 |
+| Gemini CLI、Qwen Code、Cursor Agent、OpenCode、Aider、OpenClaw | 插件市场提供对应入口。完整任务流程仍需逐一验证。 |
+
+具体支持范围和限制见 [项目状态](docs/STATUS.md)。终端入口和自动化任务分别遵循各自的执行规则。
+
+## 数据与隐私
+
+在 AgentHub 设置中保存的 API 密钥进入 macOS 钥匙串，任务记录和设置保存在本机。运行任务时，所选助手或模型服务会按其接入方式处理任务内容，使用者需自备所需账号、授权和额度。
+
+## 本地构建与测试
+
+需要 Node.js 22 或更新版本、npm、Rust 和 macOS 命令行开发工具。在项目目录执行下面两条命令。
 
 ```sh
-npm run dev                 # 浏览器界面预览，不执行真实任务
-npm run tauri dev           # 桌面开发
-npm test                   # 会话边界与权限自动检查，无 API 消耗
-npm run build
-cd src-tauri && cargo test
+npm ci
+npm run tauri build -- --bundles app
 ```
 
-正式应用：`npm run tauri build -- --bundles app`。
+构建后可在 `src-tauri/target/release/bundle/macos/` 找到 `AgentHub.app`。如只想预览界面，运行 `npm run dev`。本地检查可运行 `npm test`、`npm run build` 和 `cargo test --manifest-path src-tauri/Cargo.toml`。
 
-真实测试会消耗 API 额度，只有明确需要时运行；脚本仅从钥匙串读密钥，在系统临时目录创建隔离样例，不触碰项目源码：
+## 作者与许可
 
-```sh
-node runtime/live-check.cjs kimi-code      # 计划 → 确认 → 写入样例
-node runtime/recovery-check.cjs codex      # 重启并验证上下文
-node runtime/cancel-check.cjs claude-code  # 运行中停止
-```
+项目由 [Jessica-yaoyao](https://github.com/Jessica-yaoyao) 和 [IronMan-libingxue](https://github.com/IronMan-libingxue) 共同开发。完整署名见 [AUTHORS.md](AUTHORS.md)。
 
-以上脚本可用 `kimi-code`、`codex`、`claude-code`、`pi-coding`。
-
-当前支持范围与遗留事项见 [docs/STATUS.md](docs/STATUS.md)。图标来源见 [public/brands/SOURCES.md](public/brands/SOURCES.md)。密钥不应写入代码或命令行参数。应用目前仅做本机临时签名，尚未完成对外分发公证。
-
-## 作者
-
-- [Jessica-yaoyao](https://github.com/Jessica-yaoyao)
-- [IronMan-libingxue](https://github.com/IronMan-libingxue)
-
-本仓库由 Jessica-yaoyao 发布与维护；完整署名说明见 [AUTHORS.md](AUTHORS.md)。
-
-## 许可
-
-本仓库公开源码，原创代码和文档采用 [PolyForm Noncommercial 1.0.0](LICENSE)：允许非商业用途的使用、修改和再分发，商业用途需要另行取得授权。这是**非商业源码许可**，不属于 OSI 定义的开源许可证。第三方名称、商标及 `public/brands/` 中的标识仍归各权利人所有，不在上述许可范围内。
-
+原创代码与文档按 [PolyForm Noncommercial 1.0.0](LICENSE) 提供，允许符合条款的非商业使用、修改和分享。第三方名称与标识归各自权利人所有，见 [品牌素材来源](public/brands/SOURCES.md)。
